@@ -1,0 +1,4 @@
+customtkinter
+ffmpeg-python
+Pillow
+tkinterdnd2
