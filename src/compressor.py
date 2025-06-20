@@ -1,5 +1,6 @@
 import ffmpeg
 
+
 def compress_video(input_file, output_file, crf=28):
     try:
         ffmpeg.input(input_file).output(output_file, vcodec='libx264', crf=crf).run(overwrite_output=True)

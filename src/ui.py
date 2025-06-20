@@ -1,9 +1,12 @@
-import customtkinter as ctk
+import os
 from tkinter import filedialog, messagebox
+
+import customtkinter as ctk
 from PIL import Image
+
 from src.compressor import compress_video
 from src.utils import check_ffmpeg, get_file_size
-import os
+
 
 class VideoCompressorUI:
     def __init__(self, root):

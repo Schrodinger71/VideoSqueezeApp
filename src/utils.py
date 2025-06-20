@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+
 def check_ffmpeg():
     try:
         subprocess.run(["ffmpeg", "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
