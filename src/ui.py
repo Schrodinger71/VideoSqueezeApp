@@ -8,12 +8,12 @@ import os
 class VideoCompressorUI:
     def __init__(self, root):
         self.root = root
-        self.root.iconbitmap("assets/logo.ico")
         self.root.title("Ultimate Video Compressor")
         self.root.geometry("500x400")
         self.root.resizable(False, False)
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
+        self.root.iconbitmap("assets/logo.ico")
 
         self.input_path = ""
         self.output_path = ""
@@ -37,8 +37,20 @@ class VideoCompressorUI:
         self.output_label = ctk.CTkLabel(self.root, text="Выходной файл: не выбран")
         self.output_label.pack()
 
-        ctk.CTkLabel(self.root, text="Качество (CRF 0–51):").pack(pady=5)
-        self.slider = ctk.CTkSlider(self.root, from_=0, to=51, number_of_steps=51, variable=self.crf_value)
+        # ctk.CTkLabel(self.root, text="Качество (CRF 0–51):").pack(pady=5)
+        # self.slider = ctk.CTkSlider(self.root, from_=0, to=51, number_of_steps=51, variable=self.crf_value)
+        # self.slider.pack(pady=5)
+
+        self.crf_display = ctk.CTkLabel(self.root, text=f"Качество (CRF 0–51): {self.crf_value.get()}")
+        self.crf_display.pack()
+        self.slider = ctk.CTkSlider(
+            self.root,
+            from_=0,
+            to=51,
+            number_of_steps=51,
+            variable=self.crf_value,
+            command=self.update_crf_display
+        )
         self.slider.pack(pady=5)
 
         self.compress_btn = ctk.CTkButton(self.root, text="СЖАТЬ ВИДЕО", command=self.start_compression)
@@ -62,6 +74,9 @@ class VideoCompressorUI:
         if file:
             self.output_path = file
             self.output_label.configure(text=f"Выходной: {os.path.basename(file)}")
+
+    def update_crf_display(self, value):
+        self.crf_display.configure(text=f"Качество (CRF 0–51): {int(float(value))}")
 
     def start_compression(self):
         if not self.input_path or not self.output_path:
