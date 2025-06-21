@@ -22,7 +22,7 @@ class VideoCompressorUI:
         self.root.resizable(False, False)
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
-        self.iconbitmap(resource_path("assets/logo.ico"))
+        self.root.iconbitmap(resource_path("assets/logo.ico"))
 
         self.input_path = ""
         self.output_path = ""
