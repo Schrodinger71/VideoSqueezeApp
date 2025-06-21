@@ -43,7 +43,7 @@ jobs:
           copy ffmpeg-*/bin/ffprobe.exe ffmpeg-bin\
 
       - name: Build .exe with PyInstaller
-        run: pyinstaller main.py --noconfirm --onefile --icon=assets/logo.ico --add-data "assets/logo.ico;assets" --name=UltimateCompressor
+        run: pyinstaller main.py --noconfirm --onefile --icon=assets/logo.ico --add-data "assets/logo.ico;assets" --add-data "assets/logo.png;assets" --name=UltimateCompressor
 
       - name: Prepare zip
         run: |
