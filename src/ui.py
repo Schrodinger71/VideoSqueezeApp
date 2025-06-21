@@ -31,7 +31,7 @@ class VideoCompressorUI:
         self.setup_ui()
 
     def setup_ui(self):
-        self.logo = ctk.CTkImage(light_image=Image.open("assets/logo.png"), size=(50, 50))
+        self.logo = ctk.CTkImage(light_image=Image.open(resource_path("assets/logo.png")), size=(50, 50))
         ctk.CTkLabel(self.root, text=" Ultimate Video Compressor", image=self.logo, compound="left", font=("Helvetica", 20)).pack(pady=15)
 
         self.input_btn = ctk.CTkButton(self.root, text="Выбрать исходный файл", command=self.select_input)
