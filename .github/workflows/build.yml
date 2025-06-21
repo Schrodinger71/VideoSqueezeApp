@@ -1,0 +1,51 @@
+name: Build and Release App
+
+on:
+  push:
+    tags:
+      - 'v*'  # Только при пуше тега, например v1.0
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Download FFmpeg
+        run: |
+          curl -L -o ffmpeg.zip https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip
+          tar -xf ffmpeg.zip || unzip ffmpeg.zip
+          mkdir ffmpeg-bin
+          copy ffmpeg-*/bin/ffmpeg.exe ffmpeg-bin\
+          copy ffmpeg-*/bin/ffprobe.exe ffmpeg-bin\
+
+      - name: Build EXE with PyInstaller
+        run: |
+          pyinstaller main.py --onefile --windowed --icon=assets/logo.ico --name=UltimateCompressor
+
+      - name: Prepare zip
+        run: |
+          mkdir dist_upload
+          copy dist\UltimateCompressor.exe dist_upload\
+          copy -Recurse ffmpeg-bin dist_upload\ffmpeg
+          powershell Compress-Archive -Path dist_upload\* -DestinationPath UltimateCompressor.zip
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: UltimateCompressor.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
