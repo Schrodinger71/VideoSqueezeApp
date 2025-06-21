@@ -1,4 +1,5 @@
 import os
+import sys
 from tkinter import filedialog, messagebox
 
 import customtkinter as ctk
@@ -8,6 +9,11 @@ from src.compressor import compress_video
 from src.utils import check_ffmpeg, get_file_size
 
 
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.abspath(relative_path)
+
 class VideoCompressorUI:
     def __init__(self, root):
         self.root = root
@@ -16,7 +22,7 @@ class VideoCompressorUI:
         self.root.resizable(False, False)
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
-        self.root.iconbitmap("assets/logo.ico")
+        self.iconbitmap(resource_path("assets/logo.ico"))
 
         self.input_path = ""
         self.output_path = ""
