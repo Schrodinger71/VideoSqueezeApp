@@ -1,17 +1,17 @@
 import os
 import subprocess
-
+import sys
 
 def check_ffmpeg():
+    # Пробуем найти системный ffmpeg
     try:
         subprocess.run(["ffmpeg", "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-        return True
+        return "ffmpeg"
     except (subprocess.CalledProcessError, FileNotFoundError):
-        return False
-
-def get_file_size(path):
-    try:
-        size = os.path.getsize(path)
-        return f"{size / (1024 * 1024):.2f} MB"
-    except Exception:
-        return "--"
+        # Если не найден, ищем локально рядом с exe
+        exe_dir = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(sys.argv[0])))
+        local_ffmpeg = os.path.join(exe_dir, "ffmpeg", "ffmpeg.exe")
+        if os.path.isfile(local_ffmpeg):
+            return local_ffmpeg
+        else:
+            raise FileNotFoundError("ffmpeg не найден. Убедитесь, что ffmpeg.exe лежит в папке 'ffmpeg' рядом с exe.")
