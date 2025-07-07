@@ -84,7 +84,6 @@ docker build -t video-compressor .
 
 Проект поддерживает автоматическую сборку `.exe` и загрузку в GitHub Releases.
 
-> Не забудьте включить **Write permissions** в GitHub Actions и задать секрет `GH_TOKEN`, если используете `softprops/action-gh-release`.
 
 ---
 
