@@ -3,12 +3,10 @@ import subprocess
 import sys
 
 def check_ffmpeg():
-    # Пробуем найти системный ffmpeg
     try:
         subprocess.run(["ffmpeg", "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
         return "ffmpeg"
     except (subprocess.CalledProcessError, FileNotFoundError):
-        # Если не найден, ищем локально рядом с exe
         exe_dir = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(sys.argv[0])))
         local_ffmpeg = os.path.join(exe_dir, "ffmpeg", "ffmpeg.exe")
         if os.path.isfile(local_ffmpeg):
